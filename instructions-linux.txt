@@ -1,3 +1,2 @@
-sudo apt update && sudo apt upgrade
-sudo apt-get install python-xlib python3-pip
-pip3 install pyxhook
+pip3 install --upgrade pip
+pip3 install pynput --user
