@@ -1,21 +1,32 @@
 import socket
+import threading
+import socketserver
+from app import start_flask_app
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('localhost', 10000)
+class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
 
-sock.bind(server_address)
-# TODO make it multithreaded
-sock.listen(10)
-client, client_info = sock.accept()
-ip_addr, port = client_info
+    def handle(self):
+        data = str(self.request.recv(1024))
+        cur_thread = threading.current_thread()
+        print("{}: {}".format(cur_thread.name, data))
+        # TODO write to mongo with data
 
-print("Connection from: {}".format(ip_addr))
-buffer = ''
-while True:
-    data = client.recv(1024)
-    if data:
-        buffer += data
-        print buffer
-    else:
-        break
-print(buffer)
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
+
+
+def main():
+    server_address = ('localhost', 10000)
+    server = ThreadedTCPServer(server_address, ThreadedTCPRequestHandler)
+    # Start a thread with the server -- that thread will then start one
+    # more thread for each request
+    server_thread = threading.Thread(target=server.serve_forever)
+    # Exit the server thread when the main thread terminates
+    server_thread.daemon = True
+    server_thread.start()
+
+    # TODO start Flask api now
+    start_flask_app()
+
+if __name__ == "__main__":
+    main()

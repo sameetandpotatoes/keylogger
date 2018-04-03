@@ -11,7 +11,7 @@ class PhraseStroke:
         end_time = get_current_time()
         self.end_timestamp = str(end_time)
         self.start_timestamp = str(start_time)
-        self.duration = end_time - start_time
+        self.duration = (end_time - start_time).total_seconds()
         self.phrase = phrase
         self.terminating = ending_character
 
