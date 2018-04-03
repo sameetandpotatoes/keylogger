@@ -26,5 +26,6 @@ else
   echo "Nothing to see here. Move along . . ."
 fi
 
+# TODO change to be more dynamic
 # $mypip install pynput --user $noop
 # $mypip install numpy --user $noop

