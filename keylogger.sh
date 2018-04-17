@@ -30,3 +30,5 @@ fi
 # psutil - 5.4.3
 # $mypip install pynput --user $noop
 # $mypip install numpy --user $noop
+
+# TODO set env dynamically so that debug statements are not printed

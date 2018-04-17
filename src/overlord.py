@@ -1,10 +1,12 @@
 import socket
+import socketserver
 import logging
 import threading
-import socketserver
 import struct
-from app import start_flask_app
+import json
 import IPython
+from server.app import start_flask_app
+from models.phrasestroke import PhraseStroke
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -21,6 +23,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         # Read the message data
         logger.debug("Receiving message of length {}".format(msglen))
         message = self.recvall(self.request, msglen)
+        message_json = json.loads(message)
+        for k in message_json['keys']:
+            print(PhraseStroke.from_json(k))
         logger.info(message)
 
     def recvall(self, sock, n):

