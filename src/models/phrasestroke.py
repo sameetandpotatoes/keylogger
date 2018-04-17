@@ -13,5 +13,4 @@ class PhraseStroke:
 
     @classmethod
     def from_json(cls, jd):
-        print(jd)
         return cls(jd['start_timestamp'], jd['phrase'], jd['terminating'], jd['end_timestamp'])

