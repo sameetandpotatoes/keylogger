@@ -1,7 +1,6 @@
 from datetime import datetime
 import dateutil.parser
 import json
-import IPython
 
 class PhraseStroke:
     def __init__(self, start_time, phrase, terminating, end_time = datetime.now()):

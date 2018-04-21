@@ -1,5 +1,8 @@
-# Install XCode from App Store 
+# Install XCode from App Store
 sudo xcodebuild -license # press q, then type accept, then press enter
 sudo python -m ensurepip
 pip install pynput --user
 python keylogger.py
+
+
+pyperclip
