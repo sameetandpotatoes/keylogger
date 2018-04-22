@@ -20,15 +20,18 @@ strokes = [
                 phrase="mycompletelyrealpassword", terminating="Key.tab")
 ]
 
-@app.route('/websites/<website>'):
+@app.route('/websites/<website>')
+def websites():
     return "Websites %s" % website
 
 @app.route('/users/<ip>')
 def index():
     return "Hello, World! %s" % ip
 
-@app.route('/copypasta'):
+@app.route('/copypasta')
+def copypasta():
     # TODO return copied strings that people may have copied?
+    pass
 
 def start_flask_app():
     logger.info("Starting flask server on port {}".format(API_PORT))

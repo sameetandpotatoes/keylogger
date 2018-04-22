@@ -35,7 +35,6 @@ def insert_phrase(user, phrases_list):
         phrase['user_id'] = str(user_id)
         phrases.insert_one(phrase)
 
-
 users, phrases, db, client = None, None, None, None
 setup_database()
 UserOne = User()
