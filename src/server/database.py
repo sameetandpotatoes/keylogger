@@ -20,9 +20,9 @@ def get_user_id(user):
 
 
 def insert_user(user):
-    #user_dict = user.__dict__
-    #return users.insert_one(user_dict)
-    return users.insert_one(user)
+    user_dict = user.__dict__
+    return users.insert_one(user_dict)
+    #return users.insert_one(user)
 
 
 def insert_phrase(user, phrases_list):
@@ -54,6 +54,5 @@ PhraseTwo = {"end_timestamp" : "03/03/04:04:42:43",
              "phrase" : "pwd",
              "terminating" : "enter"}
 #insert_user(UserOne)
-insert_phrase(UserOne, PhraseOne)
-insert_phrase(UserOne, PhraseTwo)
+#insert_phrase(UserOne, [PhraseOne, PhraseTwo])
 
