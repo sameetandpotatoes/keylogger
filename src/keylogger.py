@@ -37,7 +37,7 @@ class KeyListener:
         if key in self.COPY_PASTE:
             self.current_key_combo.add(key)
             if all([k in self.current_key_combo for k in self.COPY_PASTE]):
-                clipboard = pyperclip.paste())
+                clipboard = pyperclip.paste()
                 # Timestamp doesn't mean anything here, nor does terminating
                 # TODO make terminating meaningful? search by copy pasta
                 self.buffered.append(PhraseStroke(self.start_timestamp,
