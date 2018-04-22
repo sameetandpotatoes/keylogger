@@ -36,23 +36,5 @@ def insert_phrase(user, phrases_list):
         phrases.insert_one(phrase)
 
 
-users, phrases, db, client = None, None, None, None
-setup_database()
-UserOne = User()
-print(UserOne.__dict__)
-UserOne = {"processor" : "proc",
-           "os" : "Windows",
-           "x86" : "x86sure",
-           "ip" : "123.456.789.111",
-           "image" : "dfhdbc"}
-PhraseOne = {"end_timestamp" : "01/02/03:01:02:03",
-             "duration": "10",
-             "phrase" : "password",
-             "terminating" : "return"}
-PhraseTwo = {"end_timestamp" : "03/03/04:04:42:43",
-             "duration": "5",
-             "phrase" : "pwd",
-             "terminating" : "enter"}
 #insert_user(UserOne)
 #insert_phrase(UserOne, [PhraseOne, PhraseTwo])
-
