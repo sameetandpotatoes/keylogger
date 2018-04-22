@@ -23,10 +23,10 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         logger.debug("Receiving message of length {}".format(msglen))
         message = self.recvall(self.request, msglen)
         message_json = json.loads(message)
+        phrases_list = []
         for k in message_json['keys']:
-            print(PhraseStroke.from_json(k))
-        print(User.from_json(message_json['user']))
-        # TODO save to DB
+            phrases_list.append(PhraseStroke.from_json(k))
+        insert_phrases(User.from_json(message_json['user']), phrases_list)
 
     def recvall(self, sock, n):
         # Helper function to recv n bytes or return None if EOF is hit
