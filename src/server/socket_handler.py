@@ -6,6 +6,7 @@ import json
 import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
+import insert_phrases
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
