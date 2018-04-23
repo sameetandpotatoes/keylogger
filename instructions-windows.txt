@@ -1,4 +1,5 @@
-pip3 install Flask
-pip3 install opencv-python
-pip3 install python-dateutil
-pip3 install pymongo
+pip install pynput
+pip install pyperclip
+pip install opencv-python
+pip install psutil
+pip install pymongo
