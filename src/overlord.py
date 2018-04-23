@@ -5,9 +5,9 @@ from server.database import setup_database
 
 
 def main():
+    setup_database()
     start_socket_server()
     start_flask_app()
-    setup_database()
 
 
 if __name__ == "__main__":

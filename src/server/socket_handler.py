@@ -6,7 +6,7 @@ import json
 import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
-import insert_phrases
+from server.database import insert_phrases
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -25,6 +25,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         message = self.recvall(self.request, msglen)
         message_json = json.loads(message)
         phrases_list = []
+        print("INSERTING")
         for k in message_json['keys']:
             phrases_list.append(PhraseStroke.from_json(k))
         insert_phrases(User.from_json(message_json['user']), phrases_list)

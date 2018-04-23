@@ -10,6 +10,10 @@ def setup_database():
     db = client['keylogger']
     users = db['users']
     phrases = db['phrases']
+    print("DB:")
+    print(db)
+    print("Value of user:")
+    print(users)
 
 
 def reset_database():
@@ -21,11 +25,12 @@ def get_user_id(user):
 
 
 def insert_user(user):
+    global users
     user_dict = user.__dict__
     return users.insert_one(user_dict)
 
 
-def insert_phrase(user, phrases_list):
+def insert_phrases(user, phrases_list):
     for p in phrases_list:
         user_id = get_user_id(user.__dict__)
         if user_id is None:

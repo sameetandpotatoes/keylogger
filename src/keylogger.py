@@ -8,7 +8,7 @@ def get_current_time():
     return datetime.now()
 
 class KeyListener:
-    BUFFER_CAPACITY = 5
+    BUFFER_CAPACITY = 1
     COPY_PASTE = {"Key.cmd", '\xc3\xa7'}
     TERM_KEYS = map(str, [Key.tab, Key.enter])
 
