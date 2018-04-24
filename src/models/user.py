@@ -17,7 +17,10 @@ def get_ip():
         s.close()
     return ip
 
-
+"""
+    Takes a picture of the user using the webcam (turns on the light)
+    Returns a base64 string
+"""
 def get_image():
     cap = cv2.VideoCapture(0)
     ret, frame = cap.read()
@@ -42,6 +45,11 @@ class User:
         self.image = get_image()
 
     def set_tags(self):
+        """
+            Run a convolutional neural network on the server-side per image
+            to associate tags (doesn't take more than a few seconds), and
+            runs in parallel since thread is started per client request
+        """
         import numpy as np
         from keras.preprocessing import image
         from keras_squeezenet import SqueezeNet
@@ -57,6 +65,7 @@ class User:
         x = preprocess_input(x)
 
         preds = decode_predictions(model.predict(x))
+        # preds is an array containing an array of tags and scores
         self.tags = []
         for id, pred, score in preds[0]:
             self.tags.append(pred)

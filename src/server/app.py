@@ -17,10 +17,13 @@ def websites():
 def index():
     return "Hello, World! %s" % ip
 
+@app.route('/users/<os>')
+def users_by_os():
+    # TODO convert Mac to Darwin, Linux to etc, Windows to etc.
+    pass
 
 @app.route('/copypasta')
-def copypasta():
-    # TODO return copied strings that people may have copied?
+def most_copied_phrases():
     pass
 
 
