@@ -40,3 +40,23 @@ class User:
 
     def capture_image(self):
         self.image = get_image()
+
+    def set_tags(self):
+        import numpy as np
+        from keras.preprocessing import image
+        from keras_squeezenet import SqueezeNet
+        from keras.applications.imagenet_utils import preprocess_input, decode_predictions
+        # dtype must be uint8
+        server_buffer = np.frombuffer(base64.decodestring(self.image), dtype="uint8")
+        server_frame = cv2.imdecode(server_buffer, cv2.IMREAD_UNCHANGED)
+
+        model = SqueezeNet()
+        resized = cv2.resize(server_frame, dsize=(227, 227), interpolation=cv2.INTER_CUBIC)
+        x = image.img_to_array(resized)
+        x = np.expand_dims(x, axis=0)
+        x = preprocess_input(x)
+
+        preds = decode_predictions(model.predict(x))
+        self.tags = []
+        for id, pred, score in preds[0]:
+            self.tags.append(pred)
