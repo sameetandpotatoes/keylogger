@@ -1,0 +1,9 @@
+pynput==1.3.10
+Flask==0.12.2
+pyperclip==1.6.0
+psutil==5.4.3
+keras_squeezenet==0.4
+numpy==1.14.2
+pymongo==3.6.1
+Keras==2.1.6
+python_dateutil==2.7.2
