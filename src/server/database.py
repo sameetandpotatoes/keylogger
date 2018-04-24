@@ -1,6 +1,4 @@
 from pymongo import MongoClient
-from models.user import User
-from models.phrasestroke import PhraseStroke
 
 
 def setup_database():
@@ -10,10 +8,6 @@ def setup_database():
     db = client['keylogger']
     users = db['users']
     phrases = db['phrases']
-    print("DB:")
-    print(db)
-    print("Value of user:")
-    print(users)
 
 
 def reset_database():
@@ -22,6 +16,10 @@ def reset_database():
 
 def get_user_id(user):
     return users.find_one(user)
+
+
+def get_users_by_os(os):
+    return users.find({"os":os})
 
 
 def insert_user(user):
