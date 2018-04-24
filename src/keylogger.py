@@ -38,21 +38,21 @@ class KeyListener:
             self.current_key_combo.add(key)
             if all([k in self.current_key_combo for k in self.COPY_PASTE]):
                 clipboard = pyperclip.paste()
-                # Timestamp doesn't mean anything here, nor does terminating
-                # TODO make terminating meaningful? search by copy pasta
+                # Timestamp doesn't mean anything here, nor does terminating character
                 self.buffered.append(PhraseStroke(self.start_timestamp,
                                                   self.current_phrase,
-                                                  terminating=str(self.current_key_combo)))
+                                                  terminating=str(self.current_key_combo),
+                                                  copy_pastaed=True))
 
     def on_press(self, key):
         if self.stop:
             return
         try:
             a_key = key.char.encode('utf-8').strip()
-        except AttributeError, UnicodeEncodeError:
+        except AttributeError:
             a_key = str(key)
-
-        print(a_key)
+        except UnicodeEncodeError:
+            a_key = str(key)
 
         self.handle_key_combo_detection(a_key)
 
@@ -68,6 +68,7 @@ class KeyListener:
             return
 
         if self.current_phrase is "":
+            # The start of the timestamp is the first character a user has typed
             self.start_timestamp = get_current_time()
         self.current_phrase += a_key
 
