@@ -3,6 +3,7 @@ import cv2
 import base64
 import socket
 
+
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     arbitrary_addr = ('1.2.3.4', 1)
@@ -16,6 +17,7 @@ def get_ip():
         s.close()
     return ip
 
+
 def get_image():
     cap = cv2.VideoCapture(0)
     ret, frame = cap.read()
@@ -25,7 +27,7 @@ def get_image():
 
 class User:
     def __init__(self, ip=get_ip(), processor=platform.processor(), os=platform.system(),
-                x86=platform.machine(), image=get_image()):
+                 x86=platform.machine(), image=None):
         self.processor = processor
         self.os = os
         self.x86 = x86
@@ -35,3 +37,6 @@ class User:
     @classmethod
     def from_json(cls, jd):
         return cls(**jd)
+
+    def capture_image(self):
+        self.image = get_image()

@@ -1,0 +1,5 @@
+pip install pynput
+pip install pyperclip
+pip install opencv-python
+pip install psutil
+pip install pymongo
