@@ -15,11 +15,17 @@ def reset_database():
 
 
 def get_user_id(user):
+    # TODO Andrew: should we not store the image, and just store tags? and query by mac address (that's there now)
     return users.find_one(user)
 
 
 def get_users_by_os(os):
     return users.find({"os":os})
+
+
+def get_copied_phrases(n=100):
+    # TODO Andrew: do group by phrase, and aggregate count, and limit to first n
+    return phrases.find({"copy_pastaed": True})
 
 
 def insert_user(user):

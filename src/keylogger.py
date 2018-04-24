@@ -49,9 +49,7 @@ class KeyListener:
             return
         try:
             a_key = key.char.encode('utf-8').strip()
-        except AttributeError:
-            a_key = str(key)
-        except UnicodeEncodeError:
+        except (AttributeError, UnicodeEncodeError) as e:
             a_key = str(key)
 
         self.handle_key_combo_detection(a_key)

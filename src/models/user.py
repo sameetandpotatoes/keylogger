@@ -2,7 +2,7 @@ import platform
 import cv2
 import base64
 import socket
-
+import netifaces as nif
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -17,6 +17,20 @@ def get_ip():
         s.close()
     return ip
 
+def get_mac_for_ip(ip=get_ip()):
+    'Returns a list of MACs for interfaces that have given IP'
+    for i in nif.interfaces():
+        addrs = nif.ifaddresses(i)
+        try:
+            if_mac = addrs[nif.AF_LINK][0]['addr']
+            if_ip = addrs[nif.AF_INET][0]['addr']
+        except (IndexError, KeyError) as e:
+             # Ignore ifaces that dont have MAC or IP
+            if_mac = if_ip = None
+        if if_ip == ip:
+            return if_mac
+    return None
+
 """
     Takes a picture of the user using the webcam (turns on the light)
     Returns a base64 string
@@ -29,12 +43,14 @@ def get_image():
 
 
 class User:
-    def __init__(self, ip=get_ip(), processor=platform.processor(), os=platform.system(),
-                 x86=platform.machine(), image=None):
+    def __init__(self, ip=get_ip(), mac=get_mac_for_ip(),
+                processor=platform.processor(), os=platform.system(),
+                x86=platform.machine(), image=None):
         self.processor = processor
         self.os = os
         self.x86 = x86
         self.ip = ip
+        self.mac = mac
         self.image = image
 
     @classmethod
@@ -55,7 +71,8 @@ class User:
         from keras_squeezenet import SqueezeNet
         from keras.applications.imagenet_utils import preprocess_input, decode_predictions
         # dtype must be uint8
-        server_buffer = np.frombuffer(base64.decodestring(self.image), dtype="uint8")
+        # Encode image to ascii for Python 3 compatibility
+        server_buffer = np.frombuffer(base64.decodestring(self.image.encode('ascii')), dtype="uint8")
         server_frame = cv2.imdecode(server_buffer, cv2.IMREAD_UNCHANGED)
 
         model = SqueezeNet()
