@@ -1,8 +1,8 @@
 import platform
+from uuid import getnode as get_mac
 import cv2
 import base64
 import socket
-import netifaces as nif
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -18,18 +18,8 @@ def get_ip():
     return ip
 
 def get_mac_for_ip(ip=get_ip()):
-    'Returns a list of MACs for interfaces that have given IP'
-    for i in nif.interfaces():
-        addrs = nif.ifaddresses(i)
-        try:
-            if_mac = addrs[nif.AF_LINK][0]['addr']
-            if_ip = addrs[nif.AF_INET][0]['addr']
-        except (IndexError, KeyError) as e:
-             # Ignore ifaces that dont have MAC or IP
-            if_mac = if_ip = None
-        if if_ip == ip:
-            return if_mac
-    return None
+    mac = get_mac()
+    return ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2))
 
 """
     Takes a picture of the user using the webcam (turns on the light)
