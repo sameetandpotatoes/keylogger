@@ -3,18 +3,20 @@ from datetime import datetime
 import pyperclip
 from client import bot
 from models.phrasestroke import PhraseStroke
+from utils.system import get_os
 
 def get_current_time():
     return datetime.now()
 
 class KeyListener:
     BUFFER_CAPACITY = 1
-    COPY_PASTE = {"Key.cmd", '\xc3\xa7'}
+    COPY_PASTE = {str(Key.ctrl), '\xc3\xa7'}
     TERM_KEYS = map(str, [Key.tab, Key.enter])
 
     def __init__(self):
         self.initialize_ivars()
-        # TODO replace COPY_PASTE with ctrl c if windows
+        if get_os() == 'Darwin':
+            self.COPY_PASTE = {str(Key.cmd), '\xc3\xa7'}
 
     def initialize_ivars(self):
         self.buffered = []

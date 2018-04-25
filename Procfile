@@ -1,1 +1,1 @@
-web: python src/overlord.py 
+web: python -c "print('Hello, world')"
