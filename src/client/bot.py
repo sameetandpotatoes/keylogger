@@ -42,6 +42,6 @@ def get_running_user_processes():
     for proc in psutil.process_iter():
         try:
             running_processes.append(proc.name())
-            print proc.cmdline()
+            print(proc.cmdline())
         except psutil.AccessDenied:
-            print "Permission error or access denied on process"
+            print("Permission error or access denied on process")

@@ -52,6 +52,8 @@ class KeyListener:
         except (AttributeError, UnicodeEncodeError) as e:
             a_key = str(key)
 
+        print(a_key)
+
         self.handle_key_combo_detection(a_key)
 
         if a_key in self.TERM_KEYS and len(self.current_phrase) is not 0:

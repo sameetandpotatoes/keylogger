@@ -6,7 +6,7 @@ import json
 import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
-from server.database import insert_phrases, get_users_by_os
+from server.database import insert_phrases, get_users_by_os, get_copied_phrases, insert_user
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -28,9 +28,14 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         for k in message_json['keys']:
             phrases_list.append(PhraseStroke.from_json(k))
         user = User.from_json(message_json['user'])
+        insert_user(user)
         # Run the keras convolutional neural network
         user.set_tags()
         insert_phrases(user, phrases_list)
+        print("Getting copied phrases")
+        cp_phrases = get_copied_phrases(5)
+        for p in cp_phrases:
+            print(p)
 
 
     def recvall(self, sock, n):
