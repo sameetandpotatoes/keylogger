@@ -3,7 +3,7 @@ import dateutil.parser
 import json
 
 class PhraseStroke:
-    def __init__(self, start_time, phrase, terminating, end_time=datetime.now(),
+    def __init__(self, phrase, terminating, start_time=datetime.now(), end_time=datetime.now(),
                 copy_pastaed=False):
         self.end_timestamp = str(end_time)
         self.start_timestamp = str(start_time)
