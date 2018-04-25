@@ -34,10 +34,9 @@ def get_copied_phrases(n=100):
     pipeline = [
         {"$match": {"copy_pastaed": True}},
         {"$group": {"_id":"$phrase"}},
-        {"$limit": n}
+        {"$limit": int(n)},
+        {"$project": {"_id": 0, "phrase": "$_id"}}
     ]
-    # TODO Andrew: do group by phrase, and aggregate count, and limit to first n
-    # results =  db.phrases.find({"copy_pastaed": True})
     return db.phrases.aggregate(pipeline)
 
 

@@ -35,7 +35,8 @@ def users_by_os(os):
 
 @app.route('/copypasta/<n>')
 def most_copied_phrases(n):
-    return dumps(db.get_copied_phrases(n))
+    copied_phrases = db.get_copied_phrases(n)
+    return dumps(copied_phrases)
 
 
 def start_flask_app():
