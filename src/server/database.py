@@ -14,7 +14,6 @@ def setup_database():
         client = MongoClient()
         reset_database()
 
-    reset_database()
     db = client['keylogger']
 
 
@@ -33,9 +32,9 @@ def get_users_by_os(os):
 def get_copied_phrases(n=100):
     pipeline = [
         {"$match": {"copy_pastaed": True}},
-        {"$group": {"_id":"$phrase"}},
+        {"$group": {"_id":"$phrase", "num": {"$sum":1}}},
         {"$limit": int(n)},
-        {"$project": {"_id": 0, "phrase": "$_id"}}
+        {"$project": {"_id": 0, "phrase": "$_id", "num_occurences":"$num"}}
     ]
     return db.phrases.aggregate(pipeline)
 

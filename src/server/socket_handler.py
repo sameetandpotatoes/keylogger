@@ -32,11 +32,6 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         # Run the keras convolutional neural network
         user.set_tags()
         insert_phrases(user, phrases_list)
-        print("Getting copied phrases")
-        cp_phrases = get_copied_phrases(5)
-        for p in cp_phrases:
-            print(p)
-
 
     def recvall(self, sock, n):
         # Helper function to recv n bytes or return None if EOF is hit
