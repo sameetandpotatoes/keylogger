@@ -1,6 +1,0 @@
-# TODO encrypt
-mongo:
-    username: 'root'
-    password: '8fQ0f&fve'
-    host: 'ds259079.mlab.com:59079'
-    db_name: 'cs460_keylogger'
