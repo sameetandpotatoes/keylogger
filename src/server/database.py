@@ -1,24 +1,24 @@
 import os
 from pymongo import MongoClient
 from utils import database as get_db
+from server import logger
+
+db = None
 
 def setup_database():
-    global db, client
+    global db
 
     MONGO_URL = get_db.get_database_credentials()
-    if MONGO_URL:
+    if MONGO_URL and False:
         # Heroku
         client = MongoClient(MONGO_URL)
     else:
         # Local (Development)
         client = MongoClient()
-        reset_database()
+        client.drop_database('keylogger')
+        logger.info("* Using LOCAL database")
 
     db = client['keylogger']
-
-
-def reset_database():
-    client.drop_database('keylogger')
 
 
 def get_user_id(user):
@@ -41,8 +41,6 @@ def get_copied_phrases(n=100):
 
 def insert_user(user):
     user_dict = user.__dict__
-    print("Inserting")
-    print(user_dict.keys())
     return db.users.insert_one(user_dict)
 
 
@@ -50,16 +48,11 @@ def insert_phrases(user, phrases_list):
     for p in phrases_list:
         user_id = get_user_id(user.__dict__)
         if user_id is None:
-            print("Bad user id")
+            logger.error("insert_phrases: Bad user id")
         phrase = p.__dict__
-        print("Val of cp:")
-        print(phrase["copy_pastaed"])
         phrase['user_id'] = str(user_id)
         db.phrases.insert_one(phrase)
 
 
 def update_user(user):
     db.users.update({"mac": user.mac}, {"$set": user}, upsert=False)
-
-
-db, client = None, None
