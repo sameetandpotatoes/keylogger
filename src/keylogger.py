@@ -4,6 +4,7 @@ import pyperclip
 from client import bot
 import platform
 from models.phrasestroke import PhraseStroke
+from utils.system import get_os
 
 def get_current_time():
     return datetime.now()
@@ -15,8 +16,8 @@ class KeyListener:
 
     def __init__(self):
         self.initialize_ivars()
-        if platform.system() == 'Darwin':
-            self.COPY_PASTE = {str(Key.cmd), b'\xc3\xa7'}
+        if get_os() == 'Darwin':
+            self.COPY_PASTE = {str(Key.cmd), '\xc3\xa7'}
 
     def initialize_ivars(self):
         self.buffered = []

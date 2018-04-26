@@ -102,3 +102,6 @@ ENV/
 
 # Intellij
 .idea
+
+# DB Credentials
+src/config/database.yaml

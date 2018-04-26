@@ -9,12 +9,6 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 API_PORT = 6969
 
-OS_MAPPINGS = {
-    'mac': 'Darwin',
-    'linux': 'Linux',
-    'windows': 'Windows'
-}
-
 @app.route('/websites/<website>')
 def websites():
     return "Websites %s" % website

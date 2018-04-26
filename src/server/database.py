@@ -1,11 +1,11 @@
 import os
 from pymongo import MongoClient
-
+from utils import database as get_db
 
 def setup_database():
     global db, client
 
-    MONGO_URL = os.environ.get('MONGOHQ_URL')
+    MONGO_URL = get_db.get_database_credentials()
     if MONGO_URL:
         # Heroku
         client = MongoClient(MONGO_URL)
