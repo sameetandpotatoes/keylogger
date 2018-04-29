@@ -39,9 +39,12 @@ def get_copied_phrases(n=100):
     return db.phrases.aggregate(pipeline)
 
 
-def insert_user(user):
+def get_or_create_user(user):
     user_dict = user.__dict__
-    return db.users.insert_one(user_dict)
+    user_obj = db.users.find_one(user_dict)
+    if user_obj is None:
+        db.users.insert_one(user_dict)
+    return user
 
 
 def insert_phrases(user, phrases_list):
