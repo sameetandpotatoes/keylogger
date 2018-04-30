@@ -18,7 +18,7 @@ def send_payload_to_socket(payload):
         sock.sendall(payload)
         sock.close()
     except socket.error as serr:
-        conditional_print_debug(serr)
+        pass
     import sys
     sys.exit(0)
 
@@ -38,6 +38,6 @@ def get_running_user_processes():
     for proc in psutil.process_iter():
         try:
             running_processes.append(proc.name())
-            print proc.cmdline()
+            print(proc.cmdline())
         except psutil.AccessDenied:
-            print "Permission error or access denied on process"
+            print("Permission error or access denied on process")

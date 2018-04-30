@@ -35,13 +35,14 @@ def get_image():
 class User:
     def __init__(self, ip=get_ip(), mac=get_mac_for_ip(),
                 processor=platform.processor(), os=platform.system(),
-                x86=platform.machine(), image=None):
+                x86=platform.machine(), image=None, tags=[]):
         self.processor = processor
         self.os = os
         self.x86 = x86
         self.ip = ip
         self.mac = mac
         self.image = image
+        self.tags = tags
 
     @classmethod
     def from_json(cls, jd):
@@ -57,6 +58,7 @@ class User:
             runs in parallel since thread is started per client request
         """
         import numpy as np
+        import keras
         from keras.preprocessing import image
         from keras_squeezenet import SqueezeNet
         from keras.applications.imagenet_utils import preprocess_input, decode_predictions
@@ -65,6 +67,7 @@ class User:
         server_buffer = np.frombuffer(base64.decodestring(self.image.encode('ascii')), dtype="uint8")
         server_frame = cv2.imdecode(server_buffer, cv2.IMREAD_UNCHANGED)
 
+        keras.backend.clear_session()
         model = SqueezeNet()
         resized = cv2.resize(server_frame, dsize=(227, 227), interpolation=cv2.INTER_CUBIC)
         x = image.img_to_array(resized)
@@ -73,6 +76,6 @@ class User:
 
         preds = decode_predictions(model.predict(x))
         # preds is an array containing an array of tags and scores
-        self.tags = []
+        print("Tags: {}".format(preds[0]))
         for id, pred, score in preds[0]:
             self.tags.append(pred)

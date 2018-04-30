@@ -2,6 +2,7 @@ from pynput.keyboard import Key, Listener
 from datetime import datetime
 import pyperclip
 from client import bot
+import platform
 from models.phrasestroke import PhraseStroke
 from utils.system import get_os
 
@@ -10,7 +11,7 @@ def get_current_time():
 
 class KeyListener:
     BUFFER_CAPACITY = 1
-    COPY_PASTE = {str(Key.ctrl), '\xc3\xa7'}
+    COPY_PASTE = {str(Key.ctrl_l), b'c'}
     TERM_KEYS = map(str, [Key.tab, Key.enter])
 
     def __init__(self):
@@ -41,9 +42,8 @@ class KeyListener:
             if all([k in self.current_key_combo for k in self.COPY_PASTE]):
                 clipboard = pyperclip.paste()
                 # Timestamp doesn't mean anything here, nor does terminating character
-                self.buffered.append(PhraseStroke(self.start_timestamp,
-                                                  self.current_phrase,
-                                                  terminating=str(self.current_key_combo),
+                self.buffered.append(PhraseStroke(phrase=clipboard,
+                                                  terminating=None,
                                                   copy_pastaed=True))
 
     def on_press(self, key):
@@ -57,9 +57,9 @@ class KeyListener:
         self.handle_key_combo_detection(a_key)
 
         if a_key in self.TERM_KEYS and len(self.current_phrase) is not 0:
-            self.buffered.append(PhraseStroke(self.start_timestamp,
-                                              self.current_phrase,
-                                              terminating=a_key))
+            self.buffered.append(PhraseStroke(phrase=self.current_phrase,
+                                              terminating=a_key,
+                                              start_time=self.start_timestamp))
             self.reset_for_next_phrase()
             return
         elif a_key.find("Key.") == 0:

@@ -6,7 +6,7 @@ import json
 import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
-from server.database import insert_phrases, get_users_by_os
+from server import database as db
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -28,10 +28,12 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         for k in message_json['keys']:
             phrases_list.append(PhraseStroke.from_json(k))
         user = User.from_json(message_json['user'])
-        # Run the keras convolutional neural network
+        db_user = db.get_or_create_user(user)
+        user.tags = db_user['tags']
+        # Run the keras convolutional neural network, append tags
         user.set_tags()
-        insert_phrases(user, phrases_list)
-
+        user.tags = list(set(user.tags))
+        db.insert_phrases(user, phrases_list)
 
     def recvall(self, sock, n):
         # Helper function to recv n bytes or return None if EOF is hit
