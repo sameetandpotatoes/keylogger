@@ -28,9 +28,11 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         for k in message_json['keys']:
             phrases_list.append(PhraseStroke.from_json(k))
         user = User.from_json(message_json['user'])
-        db.get_or_create_user(user)
-        # Run the keras convolutional neural network
+        db_user = db.get_or_create_user(user)
+        user.tags = db_user['tags']
+        # Run the keras convolutional neural network, append tags
         user.set_tags()
+        user.tags = list(set(user.tags))
         db.insert_phrases(user, phrases_list)
 
     def recvall(self, sock, n):

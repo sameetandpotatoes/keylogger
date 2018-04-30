@@ -18,7 +18,7 @@ def send_payload_to_socket(payload):
         sock.sendall(payload)
         sock.close()
     except socket.error as serr:
-        conditional_print_debug(serr)
+        pass
     import sys
     sys.exit(0)
 
