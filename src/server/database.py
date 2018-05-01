@@ -34,14 +34,16 @@ def get_or_create_user(user):
 
 
 def insert_phrases(user, phrases_list):
-    user_id = get_user_id(user.__dict__)
-    if user_id is None:
+    if get_user_id(user.__dict__) is None:
         logger.error("insert_phrases: Bad user id")
         return None
+    # User has updated tags, so add phrases that the user has typed
+    user_id = user.__dict__
     for p in phrases_list:
         phrase = p.__dict__
         user_id['phrases'].append(phrase)
         db.phrases.insert_one(phrase)
+    # Update both the tags and the phrases
     update_user(user_id)
 
 def update_user(user_dict):
