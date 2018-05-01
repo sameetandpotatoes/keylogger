@@ -42,7 +42,6 @@ def insert_phrases(user, phrases_list):
     for p in phrases_list:
         phrase = p.__dict__
         user_id['phrases'].append(phrase)
-        db.phrases.insert_one(phrase)
     # Update both the tags and the phrases
     update_user(user_id)
 
