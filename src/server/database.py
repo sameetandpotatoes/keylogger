@@ -38,7 +38,9 @@ def insert_phrases(user, phrases_list):
         logger.error("insert_phrases: Bad user id")
         return None
     # User has updated tags, so add phrases that the user has typed
-    user_id = user.__dict__
+    user_id = get_user_id(user.__dict__)
+    user_id['tags'] += user.tags
+    user_id['tags'] = list(set(user_id['tags']))
     for p in phrases_list:
         phrase = p.__dict__
         user_id['phrases'].append(phrase)
