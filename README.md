@@ -28,10 +28,12 @@ The credentials to access a read-only version of the Mongo database are:
 ## Problems Encountered (and potential solutions)
 
 **Problem**: Client has access to production-level data
+
 **Solution**: The client should receive the client, models, and utils modules and exclude the server and config module module. The server can receive all of the modules, or exclude the client folder. Since the server module contains the secrets function needed, and the config contains base64 encoded strings of the mongo credentials, the client never needs to communicate to the backend.
 
 **Problem**: Keylogger cross compatibility
-**Solution**: The keylogger was designed to be cross-compatible with both Python 2 and Python 3, and support as many platforms as possible. However, there are some issues that had to be dealt with. `pynput`, the package used for logging key presses, only works with Python 2 for Mac (at least up to High Sierra).
+
+**Solution**: The keylogger was designed to be cross-compatible with both Python 2 and Python 3, and support as many platforms as possible. However, there are some issues that had to be dealt with. `pynput`, the package used for logging key presses, only works with Python 2 for Mac (at least in High Sierra). Mac also requires keylogger to run as a root user application.
 
 ## Future Work
 
@@ -41,12 +43,14 @@ The credentials to access a read-only version of the Mongo database are:
 
 - I would like to cite SqueezeNet as we had to learn a little about how it works for us to use it in our project.
 
+```
 @article{SqueezeNet,
     Author = {Forrest N. Iandola and Song Han and Matthew W. Moskewicz and Khalid Ashraf and William J. Dally and Kurt Keutzer},
     Title = {SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and $<$0.5MB model size},
     Journal = {arXiv:1602.07360},
     Year = {2016}
 }
+```
 
 ## Disclaimer
 

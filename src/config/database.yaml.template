@@ -1,4 +1,3 @@
-# TODO encrypt
 mongo:
     username: 'root'
     password: ''

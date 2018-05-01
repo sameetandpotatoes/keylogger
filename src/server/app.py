@@ -1,7 +1,8 @@
 from flask import Flask, jsonify
 from datetime import datetime, timedelta
 from bson.json_util import dumps
-from server import database as db
+from server import query
+from utils.system import OS_MAPPINGS
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -24,12 +25,12 @@ def users_by_os(os):
     if os.lower() not in OS_MAPPINGS:
         return jsonify("OS {} is not a valid OS.".format(os))
     clean_os = os.lower().split(" ")[0]
-    return dumps(db.get_users_by_os(OS_MAPPINGS[clean_os]))
+    return dumps(query.get_users_by_os(OS_MAPPINGS[clean_os]))
 
 
 @app.route('/copypasta/<n>')
 def most_copied_phrases(n):
-    copied_phrases = db.get_copied_phrases(n)
+    copied_phrases = query.get_copied_phrases(n)
     return dumps(copied_phrases)
 
 
