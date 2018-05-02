@@ -16,7 +16,6 @@ def setup_database():
     else:
         # Local (Development)
         client = MongoClient()
-        # client.drop_database('keylogger')
         logger.info("* Using LOCAL database")
 
     db = client['keylogger']

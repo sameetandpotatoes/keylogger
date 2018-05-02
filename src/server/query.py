@@ -21,11 +21,11 @@ def get_username_password(url, num=2):
         {"$match":{"phrases.phrase":url}},
         {"$project":{"mac":"$mac", "timestamp":"$phrases.start_timestamp"}},
     ]
-    results = database.db.users.aggregate(pipeline)
+    user_results = database.db.users.aggregate(pipeline)
     results_list = []
-    for result in results:
-        mac = result['mac']
-        timestamp = result['timestamp']
+    for user_result in user_results:
+        mac = user_result['mac']
+        timestamp = user_result['timestamp']
         pipeline = [
             {"$unwind": "$phrases"},
             {"$match": {"mac":mac, "phrases.start_timestamp": {"$gt":timestamp}}},
