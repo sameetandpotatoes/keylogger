@@ -7,6 +7,7 @@ import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
 from server import database as db
+from server import query
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -34,6 +35,9 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         user.set_tags()
         user.tags = list(set(user.tags))
         db.insert_phrases(user, phrases_list)
+        y = query.get_top_image_tags()
+        for x in y:
+            print(x)
 
     def recvall(self, sock, n):
         # Helper function to recv n bytes or return None if EOF is hit
