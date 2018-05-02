@@ -36,3 +36,21 @@ def get_username_password(url, num=2):
         for result in results:
             results_list.append(result)
     return results_list
+
+
+def get_top_image_tags(n=100):
+    pipeline = [
+        {"$unwind": "$tags"},
+        {"$group": {"_id":"$tags", "num": {"$sum":1}, "user_mac": {"$addToSet": "$mac"}}},
+        {"$project": {"_id": 0, "tag": "$_id"}}
+    ]
+    users_tags = database.db.users.aggregate(pipeline)
+    tags_dict = {}
+    for user_tag in users_tags:
+        tag = user_tag['tag']
+        if tag in tags_dict:
+            tags_dict[tag] += 1
+        else:
+            tags_dict[tag] = 1
+    tags_list =  [(tag, tags_dict[tag]) for tag in sorted(tags_dict, key=tags_dict.get, reverse=True)]
+    return tags_list[:int(n)]
