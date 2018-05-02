@@ -17,13 +17,53 @@ sudo ./keylogger
 - Gathers unique user information and catalogues the information in a NoSQL database
 - Features an API that allows the person on the other side of the keylogger to inspect and view users information and potentially gleam useful information regarding user's passwords.
 
+## API Documentation
+
+```
+GET /websites/<website_name>
+
+- Returns all users who have typed a website name as a phrase, and returns the next 2 phrases that the user has typed
+- This corresponds to returning the username and password that a user may have typed.
+```
+
+```
+GET /tags/<n>
+
+- Returns the top n tags based on the SqueezeNet model
+```
+
+```
+GET /users/ip/<ip>
+
+- Returns the user and their phrases by their IP
+```
+
+```
+GET /users/os/<os>
+
+- Returns all users and their phrases by their operating system
+- Valid inputs are: Mac, Linux, and Windows (any case)
+```
+
+```
+GET /copypasta/<n>
+
+- Returns the top n phrases that have been copied by a user
+```
+
 ## Production Environment
 
-- The entire application is deployed on an AWS EC2 instance with a production Mongo database.
+- The entire application is designed with a production Mongo database in mind, so we have credentials to access a read only version of our Mongo DB
 
 The credentials to access a read-only version of the Mongo database are:
 - Username: everyone
 - Password: bambenek
+
+The entire Mongo DB url is:
+
+```
+mongodb://everyone:bambenek@ds259079.mlab.com:59079/cs460_keylogger
+```
 
 ## Problems Encountered (and potential solutions)
 
