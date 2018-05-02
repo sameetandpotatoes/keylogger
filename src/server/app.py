@@ -16,7 +16,7 @@ def websites(website):
     return dumps(query.get_username_password(website))
 
 
-@app.route('/users/tags/<n>')
+@app.route('/tags/<n>')
 def tags(n):
     return dumps(query.get_top_image_tags(n))
 

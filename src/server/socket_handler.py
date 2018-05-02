@@ -7,7 +7,6 @@ import logging
 from models.user import User
 from models.phrasestroke import PhraseStroke
 from server import database as db
-from server import query
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
