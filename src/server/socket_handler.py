@@ -35,9 +35,6 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         user.set_tags()
         user.tags = list(set(user.tags))
         db.insert_phrases(user, phrases_list)
-        y = query.get_top_image_tags()
-        for x in y:
-            print(x)
 
     def recvall(self, sock, n):
         # Helper function to recv n bytes or return None if EOF is hit

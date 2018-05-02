@@ -42,7 +42,15 @@ def get_top_image_tags(n=100):
     pipeline = [
         {"$unwind": "$tags"},
         {"$group": {"_id":"$tags", "num": {"$sum":1}, "user_mac": {"$addToSet": "$mac"}}},
-        {"$limit": int(n)},
-        {"$project": {"_id": 0, "tags": "$_id", "user_mac": 1, "num_occurences":"$num"}}
+        {"$project": {"_id": 0, "tag": "$_id"}}
     ]
-    return database.db.users.aggregate(pipeline)
+    users_tags = database.db.users.aggregate(pipeline)
+    tags_dict = {}
+    for user_tag in users_tags:
+        tag = user_tag['tag']
+        if tag in tags_dict:
+            tags_dict[tag] += 1
+        else:
+            tags_dict[tag] = 1
+    tags_list =  [(tag, tags_dict[tag]) for tag in sorted(tags_dict, key=tags_dict.get, reverse=True)]
+    return tags_list[:int(n)]
