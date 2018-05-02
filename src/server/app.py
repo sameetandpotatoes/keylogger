@@ -11,8 +11,8 @@ app = Flask(__name__)
 API_PORT = 6969
 
 @app.route('/websites/<website>')
-def websites():
-    return "Websites %s" % website
+def websites(website):
+    return dumps(query.get_username_password(website))
 
 
 @app.route('/users/ip/<ip>')
