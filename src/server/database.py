@@ -5,6 +5,7 @@ from server import logger
 
 db = None
 
+
 def setup_database():
     global db
 
@@ -15,7 +16,6 @@ def setup_database():
     else:
         # Local (Development)
         client = MongoClient()
-        client.drop_database('keylogger')
         logger.info("* Using LOCAL database")
 
     db = client['keylogger']
@@ -46,6 +46,7 @@ def insert_phrases(user, phrases_list):
         user_id['phrases'].append(phrase)
     # Update both the tags and the phrases
     update_user(user_id)
+
 
 def update_user(user_dict):
     db.users.update({"mac": user_dict['mac']}, {"$set": user_dict}, upsert=False)
